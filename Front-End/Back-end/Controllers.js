@@ -1,99 +1,42 @@
-const fakeCardapio = [
-
-    { id: "p1", nome: "X-burguer", preco: 20.0 },
-    { id: "p2", nome: "X-Bacon", preco: 25.0 },
-    { id: "p3", nome: "X-Maionese", preco: 30.0 }
-
-];
-
-let pedidosFake = [];
+const PedidoService = require('../services/PedidoService');
 
 module.exports = {
-
     async store(req, res) {
+        try {
+            const { clientes, itens } = req.body;
 
-        const { clientes, itens } = req.body
-        let = totalPedidos = 0;
+            // fica aguardando o service processsar
+            const pedido = PedidoService.criarPedido(clientes, itens);
 
+            return res.status(201).json(pedido);
 
-        // o map percorre cada item e transforma no objeto final
-        const itensProcessados = itens.map(item => {
-
-            const produto = fakeCardapio.find(p => p.id === item.id)
-
-            if (!produto) {
-
-                return null;
-
-            };
-
-            return {
-
-                nome: produto.nome,
-                precoUnitario: produto.preco,
-                quantidade: item.qnt,
-                subtotal: produto.preco * item.qnt
-
-            }
-
-        });
-
-        // validando se algum produto nao foi encontrado
-        if (itensProcessados.includes(null)) {
-
-            return res.json(404).json({ erro: "Produto não existe" })
-
+            // se o throw new error nao funfa ele devolve o erro
+        } catch (error) {
+            return res.status(400).json({ erro: error.message });
         }
-
-        // calcula
-        const totalPedido = itensProcessados.reduce((acumulador, item) => {
-            // A cada volta, o que eu retornar aqui será o novo valor do acumulador
-            return acumulador + item.subtotal;
-
-        }, 0) // <- muito importante esse 0, pois ele é o valor inicial
-
-
-
-        const novosPedidos = {
-
-            id: Date.now(),
-            clientes,
-            itens: itensProcessados,
-            total: totalPedido,
-            status: "pendente"
-
-        };
-
-        pedidosFake.push(novosPedidos)
-        return res.json(201).json(novosPedidos)
-
     },
 
+    async index(req, res) {
 
-    async index(req, res){
+        const pedidos = PedidoService.listarTodos();
 
-        return res.json(pedidosFake)
+        return res.json(pedidos);
+    }, 
 
-    },
+    async uptade(req, res) {
 
+        try {
+            const { id } = req.params; 
+            const { status } = req.body; 
 
-    // muda os satatus dos pedidos(atencao na hora do BD)
-    async uptade(req, res){
+            // chama o Service
+            const pedidoAtualizado = PedidoService.uptade(id, status);
 
-        const { id } = req.params;
-        const { status } = req.body;
+            return res.json(pedidoAtualizado);
 
-        const pedido = pedidosFake.find(p => p.id == id);
-
-        if (!pedido){
-
-            return res.status(404).json({erro: "pedido nao encontrado"})
-
+        } catch (error) {
+            // se o throw new error nao funfa ele devolve o erro (pedido nao encontrado)
+            return res.status(404).json({ erro: error.message });
         }
-        
-        pedido.status = status;
-        return res.json(pedido)
-
-    }
-
-}
+    } 
+}; 

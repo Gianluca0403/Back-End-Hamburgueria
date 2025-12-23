@@ -5,13 +5,13 @@ const router = express.Router();
 const PedidoController = require ('./Controllers');
 
 // rota de criar o pedido
-router.post('/pedidos'.PedidoController.store)
+router.post('/pedidos' , PedidoController.store)
 
 // rota de lista os pedidos
-router.get('/pedidos'.PedidoController.index)
+router.get('/pedidos', PedidoController.index)
 
 // rota de subir os pedidos
-router.patch('./pedidos'.PedidoController.uptade)
+router.patch('./pedidos', PedidoController.uptade)
 
-module.exports = routes;
+module.exports = router;
 
