@@ -4,20 +4,36 @@ class restaurantesService{
 
     create(data){
 
-        const newRestaurante = {
+      const horasFuncionamento = [
+        { dia: 'Segunda', abertura: '09:00', fechamento: '18:00', isOpen: true },
+        { dia: 'Terça', abertura: '09:00', fechamento: '18:00', isOpen: true },
+        { dia: 'Quarta', abertura: '09:00', fechamento: '18:00', isOpen: true },
+        { dia: 'Quinta', abertura: '09:00', fechamento: '18:000', isOpen: true },
+        { dia: 'Sexta', abertura: '09:00', fechamento: '22:00', isOpen: true },
+        { dia: 'Sábado', abertura: '09:00', fechamento: '22:00', isOpen: true },
+        { dia: 'Domingo', abertura: '09:00', fechamento: '22:00', isOpen: true },
+    ];
 
-            ...data, // pega tudo que veio do body
-            cretedAt: new date (),
-            isActive: data.isActive ?? true // padrao ativo caso nao seja enviado
-
-        };
+    const ListarRestaurante = {  
+        id: Date.now().toString(), 
+        name: data.name,
+        slug: data.slug,
+        logo: data.logo,                                                                                       
+        coverImage: data.coverImage,
+        description: data.description || 'Descrição padrão do restaurante.',
+        address: data.address,
+        phone: data.phone,
+        isActive: data.isActive ?? true,
+        openingHours: data.openingHours || horasFuncionamento, 
+        createdAt: new Date()
+    };
 
         restaurantes.push(newRestaurante)
         return newRestaurante;
 
     }
 
-    listarTudo(){
+    ListarTudo(){
 
         return restaurantes;
 
@@ -28,7 +44,7 @@ class restaurantesService{
 
         const res = restaurantes.find(restaurante => restaurante.id === id)
         if (!restaurantes) throw new Error ("Restaurante nao foi encontrado")
-        return restaurantes;
+        return res;
 
     }
 

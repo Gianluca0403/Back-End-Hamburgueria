@@ -14,7 +14,18 @@ class PedidoService {
         const itensProcessados = itens.map(item => {
             const produto = fakeCardapio.find(pedido => pedido.id === item.id);
 
-            if (!produto) return null;
+            if (!produto) {
+
+                // mais eficiente
+                throw new error('ID nao encontrado')
+
+            }
+
+            // o produto pertence ao restaurante que está recebendo o pedido?
+            if (produto.restauranteId !== restauranteId) {
+            throw new Error(`O produto não pertence a este restaurante.`);
+            }
+            
 
             return {
                 nome: produto.nome,

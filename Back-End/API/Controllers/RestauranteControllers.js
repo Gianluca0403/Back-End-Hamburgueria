@@ -1,5 +1,5 @@
 //payload
-const RestaurantService = require('../services/restaurantesService')
+const RestaurantService = require('../Services/RestauranteService')
 
 module.exports = {
     async store(req, res) {
@@ -12,7 +12,7 @@ module.exports = {
     },
 
     async index(req, res) {
-        const list = RestaurantService.listAll();
+        const list = RestaurantService.ListarTudo();
         return res.json(list);
     },
 

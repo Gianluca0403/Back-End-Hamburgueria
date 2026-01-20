@@ -1,4 +1,4 @@
-const PedidoService = require('../services/PedidoService');
+const PedidoService = require('../Services/PedidoServices');
 
 module.exports = {
     async store(req, res) {
