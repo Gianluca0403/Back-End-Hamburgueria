@@ -17,7 +17,7 @@ class PedidoService {
             if (!produto) {
 
                 // mais eficiente
-                throw new error('ID nao encontrado')
+                throw new Error('ID nao encontrado')
 
             }
 

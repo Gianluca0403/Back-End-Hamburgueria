@@ -28,8 +28,8 @@ class restaurantesService{
         createdAt: new Date()
     };
 
-        restaurantes.push(newRestaurante)
-        return newRestaurante;
+        restaurantes.push(ListarRestaurante)
+        return ListarRestaurante;
 
     }
 
@@ -43,7 +43,7 @@ class restaurantesService{
     getByID(id){
 
         const res = restaurantes.find(restaurante => restaurante.id === id)
-        if (!restaurantes) throw new Error ("Restaurante nao foi encontrado")
+        if (!res) throw new Error ("Restaurante nao foi encontrado")
         return res;
 
     }
@@ -51,8 +51,8 @@ class restaurantesService{
     uptade(id , uptadeData){
 
         // me retorna uma posição do array (o find.index faz isso pra mim)
-        const uptades = restaurantes.findIndex(restaurante => restaurante.id === id);
-        if (index === -1) throw new Error ("Restaurante não encontrado")
+        const uptades = restaurantesPosicao.findIndex(restaurante => restaurante.id === id);
+        if (restaurantesPosicao === -1) throw new Error ("Restaurante não encontrado")
 
         // aqui ele sobreescreve apenas oque eu colocar de novo, exemplo um numero novo, ou um novo endereço
         restaurantes [index] = { ...restaurantes[index], ...uptadeData}
