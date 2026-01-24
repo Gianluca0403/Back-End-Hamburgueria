@@ -3,7 +3,6 @@ const router = express.Router();
 
 // Importando os Controllers corretamente
 const PedidoController = require('./Controllers/PedidoControllers');
-const RestauranteController = require('./Controllers/RestauranteControllers');
 const RestauranteControllers = require("./Controllers/RestauranteControllers");
 
 // rota de criar o pedido
