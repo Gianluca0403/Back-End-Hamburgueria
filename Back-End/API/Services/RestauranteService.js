@@ -33,7 +33,7 @@ class restaurantesService{
 
     }
 
-    ListarTudo(){
+    ListarRestaurante(){
 
         return restaurantes;
 
@@ -48,14 +48,14 @@ class restaurantesService{
 
     }
 
-    uptade(id , uptadeData){
+    update(id , updateData){
 
         // me retorna uma posição do array (o find.index faz isso pra mim)
         const uptades = restaurantesPosicao.findIndex(restaurante => restaurante.id === id);
         if (restaurantesPosicao === -1) throw new Error ("Restaurante não encontrado")
 
         // aqui ele sobreescreve apenas oque eu colocar de novo, exemplo um numero novo, ou um novo endereço
-        restaurantes [index] = { ...restaurantes[index], ...uptadeData}
+        restaurantes [index] = { ...restaurantes[index], ...updateData}
         return restaurantes[index]
 
     }

@@ -12,7 +12,7 @@ module.exports = {
     },
 
     async index(req, res) {
-        const list = RestaurantService.ListarTudo();
+        const list = RestaurantService.ListarRestaurante();
         return res.json(list);
     },
 

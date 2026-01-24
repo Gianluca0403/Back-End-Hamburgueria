@@ -57,11 +57,11 @@ class PedidoService {
         return novoPedido;
     }
 
-    listarTodos() {
+    listarPedidos() {
         return pedidosFake;
     }
 
-    uptade (id, novoStatus) {
+    update (id, novoStatus) {
 
         const pedido = pedidosFake.find(pedido => pedido.id == id);
 

@@ -18,7 +18,7 @@ module.exports = {
 
     async index(req, res) {
 
-        const pedidos = PedidoService.listarTodos();
+        const pedidos = PedidoService.listarPedidos();
 
         return res.json(pedidos);
     }, 
@@ -30,7 +30,7 @@ module.exports = {
             const { status } = req.body; 
 
             // chama o Service
-            const pedidoAtualizado = PedidoService.uptade(id, status);
+            const pedidoAtualizado = PedidoService.update(id, status);
 
             return res.json(pedidoAtualizado);
 
