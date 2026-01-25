@@ -4,17 +4,18 @@ const router = express.Router();
 // importando os controllers
 const PedidoController = require('./Controllers/PedidoControllers');
 const RestauranteController = require('./Controllers/RestauranteControllers');
-const UsuarioController = require('./Controllers/UsuarioController'); // Novo
+const UsuarioController = require('./Controllers/UsuarioControllers'); // Novo
 const ProdutoControllers = require('./Controllers/ProdutoControllers');
+const UsuarioControllers = require('./Controllers/UsuarioControllers');
 
 // rotas de restaurantes
 router.post('/api/restaurante', RestauranteController.store);
 router.get('/api/restaurante', RestauranteController.index);
 
 // rotas de usuários
-router.post('/api/usuarios', UsuarioController.store);
-router.get('/api/usuarios', UsuarioController.index);
-router.get('/api/usuarios/:id', UsuarioController.show);
+router.post('/api/usuarios', UsuarioControllers.store);
+router.get('/api/usuarios', UsuarioControllers.index);
+router.get('/api/usuarios/:id', UsuarioControllers.show);
 
 // rotas de produtos
 router.post('/api/produtos', ProdutoControllers.store);
