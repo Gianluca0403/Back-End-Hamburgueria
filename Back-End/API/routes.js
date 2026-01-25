@@ -1,32 +1,27 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-// Importando os Controllers corretamente
+// importando os controllers
 const PedidoController = require('./Controllers/PedidoControllers');
-const RestauranteControllers = require("./Controllers/RestauranteControllers");
+const RestauranteController = require('./Controllers/RestauranteControllers');
+const UsuarioController = require('./Controllers/UsuarioController'); // Novo
+const ProdutoControllers = require('./Controllers/ProdutoControllers');
 
-// rota de criar o pedido
-router.post('/pedidos' , PedidoController.store)
+// rotas de restaurantes
+router.post('/api/restaurante', RestauranteController.store);
+router.get('/api/restaurante', RestauranteController.index);
 
-// rota de lista os pedidos
-router.get('/pedidos', PedidoController.index)
+// rotas de usuários
+router.post('/api/usuarios', UsuarioController.store);
+router.get('/api/usuarios', UsuarioController.index);
+router.get('/api/usuarios/:id', UsuarioController.show);
 
-// rota de subir os pedidos
-router.patch('./pedidos/:id', PedidoController.uptade)
+// rotas de produtos
+router.post('/api/produtos', ProdutoControllers.store);
+router.get('/api/produtos', ProdutoControllers.index);
 
-router.post('/api/restaurante', RestauranteControllers.store);
-
-// Listar todos os restaurantes registrados
-router.get('/api/restaurante', RestauranteControllers.index);
-
-// me mostra detalhes de um restaurante específico pelo ID
-router.get('/api/restaurante/:id', RestauranteControllers.show);
-
-// atualizar dados de um restaurante 
-router.put('/api/restaurante/:id', RestauranteControllers.update);
-
-// Deletar um restaurante do sistema
-router.delete('/api/restaurante/:id', RestauranteControllers.delete);
+// rotas de pedidos
+router.post('/api/pedidos', PedidoController.store);
+router.get('/api/pedidos', PedidoController.index);
 
 module.exports = router;
-
