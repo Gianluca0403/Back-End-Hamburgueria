@@ -3,10 +3,11 @@ const PedidoService = require('../Services/PedidoServices');
 module.exports = {
     async store(req, res) {
         try {
-            const { clientes, itens } = req.body;
+            // dicionei o restauranteId pois o Service agora precisa dele
+            const { clientes, itens, restauranteId } = req.body;
 
             // fica aguardando o service processsar
-            const pedido = PedidoService.criarPedido(clientes, itens);
+            const pedido = await PedidoService.criarPedido(clientes, itens, restauranteId);
 
             return res.status(201).json(pedido);
 
@@ -17,20 +18,18 @@ module.exports = {
     },
 
     async index(req, res) {
-
-        const pedidos =  PedidoService.listarPedidos();
+        const pedidos = await PedidoService.listarPedidos();
 
         return res.json(pedidos);
     }, 
 
     async uptade(req, res) {
-
         try {
             const { id } = req.params; 
             const { status } = req.body; 
 
             // chama o Service
-            const pedidoAtualizado = PedidoService.update(id, status);
+            const pedidoAtualizado = await PedidoService.update(id, status);
 
             return res.json(pedidoAtualizado);
 
@@ -39,4 +38,4 @@ module.exports = {
             return res.status(404).json({ erro: error.message });
         }
     } 
-}; 
+};

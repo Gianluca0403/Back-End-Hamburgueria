@@ -1,10 +1,9 @@
-//payload
 const RestaurantService = require('../Services/RestauranteService')
 
 module.exports = {
     async store(req, res) {
         try {
-            const restaurant = RestaurantService.create(req.body);
+            const restaurant = await RestaurantService.create(req.body);
             return res.status(201).json(restaurant);
         } catch (error) {
             return res.status(400).json({ error: error.message });
@@ -12,15 +11,14 @@ module.exports = {
     },
 
     async index(req, res) {
-        const list = RestaurantService.ListarRestaurante();
+        const list = await RestaurantService.ListarRestaurante();
         return res.json(list);
     },
-
 
     // me mostra detalhes de um restaurante específico pelo ID
     async show(req, res) {
         try {
-            const restaurant = RestaurantService.getById(req.params.id);
+            const restaurant = await RestaurantService.getByID(req.params.id);
             return res.json(restaurant);
         } catch (error) {
             return res.status(404).json({ error: error.message });
@@ -29,7 +27,7 @@ module.exports = {
 
     async update(req, res) {
         try {
-            const updated = RestaurantService.update(req.params.id, req.body);
+            const updated = await RestaurantService.update(req.params.id, req.body);
             return res.json(updated);
         } catch (error) {
             return res.status(404).json({ error: error.message });
@@ -38,7 +36,7 @@ module.exports = {
 
     async delete(req, res) {
         try {
-            const result = RestaurantService.delete(req.params.id);
+            const result = await RestaurantService.delete(req.params.id);
             return res.json(result); // <- volta meu resuultado
         } catch (error) {
             return res.status(404).json({ error: error.message });

@@ -26,7 +26,7 @@ class restaurantesService {
         });
     }
 
-    async ListarTudo() {
+    async ListarRestaurante() {
         return await Restaurante.find(); // busca direto no banco de dados
     }
 
