@@ -1,41 +1,31 @@
-const fakeCardapio = [
-    {id: "pedido1" , nome: "X-burguer" , preco:20.0},
-    {id: "pedido2" , nome: "X-Bacon" , preco:25.0},
-    {id: "pedido3" , nome: "X-Maionese" , preco:30.0}
-];
-
-let pedidosFake = [];
+const Pedido = require('../Models/PedidoDB');
+const Produto = require('../Models/ProdutoDB');
 
 class PedidoService {
-    
-    criarPedido(clientes, itens) {
-
+    async criarPedido(clienteId, itens, restauranteId) {
         // o map percorre cada item e transforma no objeto final
-        const itensProcessados = itens.map(item => {
-            const produto = fakeCardapio.find(pedido => pedido.id === item.id);
+        const itensProcessados = await Promise.all(itens.map(async (item) => {
+            const produtoBD = await Produto.findById(item.id);
 
-            if (!produto) {
-
+            if (!produtoBD) {
                 // mais eficiente
-                throw new Error('ID nao encontrado')
-
+                throw new Error('ID nao encontrado');
             }
 
             // o produto pertence ao restaurante que está recebendo o pedido?
-            if (produto.restauranteId !== restauranteId) {
-            throw new Error(`O produto não pertence a este restaurante.`);
+            if (produtoBD.restauranteID.toString() !== restauranteId) {
+                throw new Error(`O produto não pertence a este restaurante.`);
             }
-            
 
             return {
-                nome: produto.nome,
-                precoUnitario: produto.preco,
+                nome: produtoBD.nome,
+                precoUnitario: produtoBD.preco,
                 quantidade: item.qnt,
-                subtotal: produto.preco * item.qnt
+                subtotal: produtoBD.preco * item.qnt
             };
-        });
+        }));
 
-         // validando se algum produto nao foi encontrado
+        // validando se algum produto nao foi encontrado
         if (itensProcessados.includes(null)) {
             throw new Error("produto não encontrado");
         }
@@ -45,30 +35,23 @@ class PedidoService {
             return acumulador + item.subtotal;
         }, 0); // <- muito importante esse 0, pois ele é o valor inicial
 
-        const novoPedido = {
-            id: Date.now(),
-            clientes,
+        return await Pedido.create({
+            clienteId,
+            restauranteId,
             itens: itensProcessados,
             total: totalPedido,
             status: "pendente"
-        };
-
-        pedidosFake.push(novoPedido);
-        return novoPedido;
+        });
     }
 
-    listarPedidos() {
-        return pedidosFake;
+    async listarPedidos() {
+        return await Pedido.find().populate('clienteId').populate('restauranteId');
     }
 
-    update (id, novoStatus) {
-
-        const pedido = pedidosFake.find(pedido => pedido.id == id);
-
+    async update(id, novoStatus) {
         // esse erro aparece no controller
+        const pedido = await Pedido.findByIdAndUpdate(id, { status: novoStatus }, { new: true });
         if (!pedido) throw new Error("pedido não encontrado");
-
-        pedido.status = novoStatus;
         return pedido;
     }
 }

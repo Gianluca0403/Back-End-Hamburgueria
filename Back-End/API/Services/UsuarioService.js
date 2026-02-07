@@ -1,56 +1,36 @@
-let usuarios = [];
+const Usuario = require('../Models/UsuarioDB');
 
-class UsuarioService{
-    create(data){
-
-        const NovoUsuario = {
-
-            id : Date.now().toString(),
+class UsuarioService {
+    async create(data) {
+        return await Usuario.create({
             nome: data.nome,
             email: data.email,
             senha: data.senha, // futuramente usar uma hash
-            funcao: data.funcao || 'cliente', // cliente ou adm
-            createdAt: new Date ()
-
-        }
-
-        usuarios.push(NovoUsuario)
-        return NovoUsuario
-
+            funcao: data.funcao || 'cliente' // cliente ou adm
+        });
     }
 
-    listarUsuarios(){
-
-        return usuarios;
-
+    async listarUsuarios() {
+        return await Usuario.find();
     }
 
-    getById(id){
-
-        const user = usuarios.find(u => u.id === id);
-        if (!user) throw new Error ("Usuario nao encontrado")
+    async getById(id) {
+        const user = await Usuario.findById(id);
+        if (!user) throw new Error("Usuario nao encontrado");
         return user;
-
     }
 
-    update(id, data){
-
-        const index = usuarios.findIndex(u => u.id === id);
-        if(index === -1) throw new Error ("Usuario nao encontrado");
-        usuarios[index] = {...usuarios[index],... data};
-        return usuarios[index]
-
+    async update(id, data) {
+        const user = await Usuario.findByIdAndUpdate(id, data, { new: true });
+        if (!user) throw new Error("Usuario nao encontrado");
+        return user;
     }
 
-    delete(id){
-
-        const index = usuarios.findIndex(u => u.id === id);
-        if (index === -1) throw new Error ("Usuario nao encontrado")
-        usuarios.splice(index , 1);
-        return { message: "Usuario deletado" }
-
+    async delete(id) {
+        const user = await Usuario.findByIdAndDelete(id);
+        if (!user) throw new Error("Usuario nao encontrado");
+        return { message: "Usuario deletado" };
     }
-
 }
 
-module.exports = new UsuarioService(); 
+module.exports = new UsuarioService();

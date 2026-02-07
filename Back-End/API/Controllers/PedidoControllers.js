@@ -18,7 +18,7 @@ module.exports = {
 
     async index(req, res) {
 
-        const pedidos = PedidoService.listarPedidos();
+        const pedidos =  PedidoService.listarPedidos();
 
         return res.json(pedidos);
     }, 
